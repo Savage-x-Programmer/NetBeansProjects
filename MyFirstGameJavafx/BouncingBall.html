@@ -1,0 +1,305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>BouncingBall.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: monospace}
+pre {color: #000000; background-color: #ffffff; font-family: monospace}
+table {color: #404040; background-color: #e9e8e2; font-family: monospace}
+.ST1 {color: #969696; font-family: monospace; font-weight: bold}
+.ST2 {font-family: monospace; font-weight: bold}
+.comment {color: #969696}
+.ST5 {font-family: monospace; font-style: italic}
+.ST4 {color: #ce54b8; font-family: monospace; font-style: italic}
+.ST0 {color: #287bde}
+.ST3 {color: #ce54b8}
+.string {color: #1e9347}
+.ST6 {color: #1e9347; font-family: monospace; font-weight: bold}
+.literal {color: #336bdd}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">/Users/angelfigeralperezestevez/NetBeansProjects/MP2DataStructures/src/animation/BouncingBall.java</td></tr></table>
+<pre>
+<span class="comment">/*</span>
+<span class="comment"> * Click </span><span class="ST0">nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt</span><span class="comment"> to change this license</span>
+<span class="comment"> * Click </span><span class="ST0">nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java</span><span class="comment"> to edit this template</span>
+<span class="comment"> */</span>
+<span class="literal">package</span> animation;
+
+<span class="literal">import</span> java.util.ArrayList;
+<span class="literal">import</span> javafx.animation.KeyFrame;
+<span class="literal">import</span> javafx.animation.Timeline;
+<span class="literal">import</span> javafx.beans.property.DoubleProperty;
+<span class="literal">import</span> javafx.event.ActionEvent;
+<span class="literal">import</span> javafx.event.EventHandler;
+<span class="literal">import</span> javafx.scene.control.Label;
+<span class="literal">import</span> javafx.scene.effect.DropShadow;
+<span class="literal">import</span> javafx.scene.image.Image;
+<span class="literal">import</span> javafx.scene.image.ImageView;
+<span class="literal">import</span> javafx.scene.layout.Background;
+<span class="literal">import</span> javafx.scene.layout.BackgroundImage;
+<span class="literal">import</span> javafx.scene.layout.BackgroundPosition;
+<span class="literal">import</span> javafx.scene.layout.BackgroundRepeat;
+<span class="literal">import</span> javafx.scene.layout.BackgroundSize;
+<span class="literal">import</span> javafx.scene.layout.Pane;
+<span class="literal">import</span> javafx.scene.paint.Color;
+<span class="literal">import</span> javafx.scene.shape.Circle;
+<span class="literal">import</span> javafx.scene.shape.Rectangle;
+<span class="literal">import</span> javafx.scene.text.Font;
+<span class="literal">import</span> javafx.util.Duration;
+
+<span class="comment">/**</span>
+<span class="comment"> *</span>
+<span class="comment"> * </span><span class="ST1">@author</span> <span class="comment">angelfigeralperezestevez</span>
+ <span class="comment">*/</span>
+<span class="literal">public</span> <span class="literal">class</span> <span class="ST2">BouncingBall</span> <span class="literal">extends</span> Pane {
+
+    <span class="literal">public</span> <span class="literal">final</span> <span class="literal">double</span> <span class="ST3">radius</span> = 10; <span class="comment">//nall size 40</span>
+    <span class="literal">private</span> <span class="literal">double</span> <span class="ST3">x</span> = <span class="ST3">radius</span>, <span class="ST3">y</span> = <span class="ST3">radius</span>; <span class="comment">//coordinates of the ball </span>
+    <span class="literal">private</span> <span class="literal">double</span> <span class="ST3">dx</span> = 1, <span class="ST3">dy</span> = 1;          <span class="comment">// direction of the ball</span>
+    <span class="literal">private</span> Circle <span class="ST3">circle</span> = <span class="literal">new</span> Circle(<span class="ST3">x</span>, <span class="ST3">y</span>, <span class="ST3">r</span><span class="ST3">adius</span>); <span class="comment">// the ball</span>
+
+    <span class="literal">private</span> Timeline <span class="ST3">animation</span>;     <span class="comment">//animate the ball </span>
+
+    <span class="literal">public</span> <span class="literal">double</span> <span class="ST3">recMoveRight</span> = 0;<span class="comment">//moves rectangle right</span>
+    <span class="literal">public</span> <span class="literal">double</span> <span class="ST3">recMoveLeft</span> = 0;<span class="comment">// moves rectangle left</span>
+    <span class="literal">private</span> <span class="literal">double</span> <span class="ST3">recX</span>; <span class="comment">// rec start x val</span>
+    <span class="literal">private</span> <span class="literal">double</span> <span class="ST3">recY</span>; <span class="comment">// rec start y val</span>
+    <span class="literal">final</span> <span class="literal">private</span> <span class="literal">int</span> <span class="ST3">RecHeight</span> = 25; <span class="comment">// rectangle height</span>
+    <span class="literal">final</span> <span class="literal">private</span> <span class="literal">int</span> <span class="ST3">RecWidth</span> = 150; <span class="comment">// rectangle width</span>
+    Rectangle <span class="ST3">rectangle</span> = <span class="literal">new</span> Rectangle(<span class="ST3">r</span><span class="ST3">ecX</span>, <span class="ST3">r</span><span class="ST3">ecY</span>, <span class="ST3">R</span><span class="ST3">ecWidth</span>, <span class="ST3">R</span><span class="ST3">ecHeight</span>); <span class="comment">// the rectangle</span>
+
+    <span class="literal">public</span> <span class="literal">int</span> <span class="ST3">score</span>; <span class="comment">//your score on the game</span>
+    <span class="literal">public</span> <span class="literal">int</span> <span class="ST3">computerScore</span>; <span class="comment">// just to get all my points on the MP, this its not nessary</span>
+    <span class="literal">public</span> <span class="literal">final</span> <span class="literal">int</span> <span class="ST3">lives</span> = 3; <span class="comment">// you only get 3 lives and its game over </span>
+    <span class="literal">public</span> <span class="literal">int</span> <span class="ST3">level</span> = 1; <span class="comment">//your level on the game</span>
+    <span class="literal">public</span> <span class="literal">int</span> <span class="ST3">levelLogic</span> = 50; <span class="literal">public</span> <span class="literal">int</span> <span class="ST3">moveLogic</span> = 70; <span class="comment">// logic on the game play </span>
+
+    Label <span class="ST3">scoreLabel</span> = <span class="literal">new</span> Label(<span class="string">&quot;</span><span class="string">Score: </span><span class="string">&quot;</span> + <span class="ST3">score</span>);                          <span class="comment">//all your labels </span>
+    Label <span class="ST3">computerScoreLabel</span> = <span class="literal">new</span> Label(<span class="string">&quot;</span><span class="string">Computer Score: </span><span class="string">&quot;</span> + <span class="ST3">computerScore</span>); <span class="comment">// |</span>
+    Label <span class="ST3">copyRightLabel</span> = <span class="literal">new</span> Label(<span class="string">&quot;</span><span class="string">CopyRight@Angel Perez Estevez</span><span class="string">&quot;</span>);        <span class="comment">// |</span>
+    Label <span class="ST3">levelLabel</span> = <span class="literal">new</span> Label(<span class="string">&quot;</span><span class="string">Level: </span><span class="string">&quot;</span> + <span class="ST3">level</span>);                          <span class="comment">// &lt;</span>
+    
+    Image <span class="ST3">life1</span> = <span class="literal">new</span> Image(<span class="string">&quot;</span><span class="string">images/lifes.png</span><span class="string">&quot;</span>,40,40,<span class="literal">f</span><span class="literal">alse</span>,<span class="literal">t</span><span class="literal">rue</span>); <span class="comment">//lifes icons</span>
+                                                                   <span class="comment">//</span>
+       
+        
+        ImageView <span class="ST3">imv1</span> = <span class="literal">new</span> ImageView(<span class="ST3">l</span><span class="ST3">ife1</span>);                     <span class="comment">//</span>
+        ImageView <span class="ST3">imv2</span> = <span class="literal">new</span> ImageView(<span class="ST3">l</span><span class="ST3">ife1</span>);                     <span class="comment">//</span>
+        ImageView <span class="ST3">imv3</span> = <span class="literal">new</span> ImageView(<span class="ST3">l</span><span class="ST3">ife1</span>);                     <span class="comment">//</span>
+        
+    
+    <span class="literal">public</span>  <span class="literal">int</span> <span class="ST3">lifeCounter</span> = 0;
+
+    <span class="literal">public</span> <span class="ST2">BouncingBall</span>() { <span class="comment">// constructor // your pane</span>
+        setWidth(800);
+        setHeight(600);
+        
+        BackgroundImage myBI= <span class="literal">new</span> BackgroundImage(<span class="literal">new</span> Image(<span class="string">&quot;</span><span class="string">images/backgroundImage.jpg</span><span class="string">&quot;</span>,800,600,<span class="literal">f</span><span class="literal">alse</span>,<span class="literal">t</span><span class="literal">rue</span>),
+        BackgroundRepeat.<span class="ST4">REPEAT</span>, BackgroundRepeat.<span class="ST4">NO_REPEAT</span>, BackgroundPosition.<span class="ST4">DEFAULT</span>,
+        BackgroundSize.<span class="ST4">DEFAULT</span>);
+        
+        setBackground(<span class="literal">new</span> Background(myBI)); <span class="comment">// the background </span>
+        
+        
+        
+        
+        <span class="ST3">imv1</span>.relocate(650, 150);
+        <span class="ST3">imv2</span>.relocate(700, 150);
+        <span class="ST3">imv3</span>.relocate(750, 150);
+        
+        getChildren().add(<span class="ST3">i</span><span class="ST3">mv1</span>);
+        getChildren().add(<span class="ST3">i</span><span class="ST3">mv2</span>);
+        getChildren().add(<span class="ST3">i</span><span class="ST3">mv3</span>);
+        
+        
+        
+        
+        
+        
+        getChildren().add(<span class="ST3">s</span><span class="ST3">coreLabel</span>);
+        <span class="ST3">scoreLabel</span>.setLayoutX(30.0);
+        <span class="ST3">scoreLabel</span>.setLayoutY(30.0);
+        <span class="ST3">scoreLabel</span>.setFont(Font.<span class="ST5">font</span>(<span class="string">&quot;</span><span class="string">Impact</span><span class="string">&quot;</span>,15));
+
+        getChildren().add(<span class="ST3">l</span><span class="ST3">evelLabel</span>);
+        <span class="ST3">levelLabel</span>.setLayoutX(30.0);
+        <span class="ST3">levelLabel</span>.setLayoutY(60.0);
+        <span class="ST3">levelLabel</span>.setFont(Font.<span class="ST5">font</span>(<span class="string">&quot;</span><span class="string">Impact</span><span class="string">&quot;</span>,15));
+        
+        getChildren().add(<span class="ST3">c</span><span class="ST3">omputerScoreLabel</span>);
+        <span class="ST3">computerScoreLabel</span>.setLayoutX(30.0);
+        <span class="ST3">computerScoreLabel</span>.setLayoutY(90.0);
+        <span class="ST3">computerScoreLabel</span>.setFont(Font.<span class="ST5">font</span>(<span class="string">&quot;</span><span class="string">Impact</span><span class="string">&quot;</span>,15));
+        
+        getChildren().add(<span class="ST3">c</span><span class="ST3">opyRightLabel</span>);
+        <span class="ST3">copyRightLabel</span>.setLayoutX(550.0);
+        <span class="ST3">copyRightLabel</span>.setLayoutY(30.0);
+
+        DropShadow dropShadow = <span class="literal">new</span> DropShadow();
+        dropShadow.setOffsetX(6.0);
+        dropShadow.setOffsetY(-4.0);
+        <span class="ST3">circle</span>.setFill(Color.<span class="ST4">CHARTREUSE</span>);
+        getChildren().add(<span class="ST3">c</span><span class="ST3">ircle</span>);
+        <span class="ST3">circle</span>.setEffect(dropShadow);
+        
+        
+        <span class="ST3">recX</span> = (getWidth() - 150) / 2;<span class="comment">// rectangle x cord</span>
+        <span class="ST3">recY</span> = getHeight() - 25; <span class="comment">// rectangle y cord</span>
+
+        <span class="ST3">rectangle</span>.setX(<span class="ST3">r</span><span class="ST3">ecX</span>);
+        <span class="ST3">rectangle</span>.setY(<span class="ST3">r</span><span class="ST3">ecY</span>);
+        <span class="ST3">rectangle</span>.setFill(Color.<span class="ST4">BURLYWOOD</span>);
+        <span class="ST3">rectangle</span>.setArcHeight(70);
+        <span class="ST3">rectangle</span>.setArcWidth(20);
+        DropShadow dropShadow2 = <span class="literal">new</span> DropShadow();
+        dropShadow2.setOffsetX(6.0);
+        dropShadow2.setOffsetY(-4.0);
+        <span class="ST3">rectangle</span>.setEffect(dropShadow2);
+        getChildren().add(<span class="ST3">r</span><span class="ST3">ectangle</span>);
+
+        <span class="ST3">animation</span> = <span class="literal">new</span> Timeline(<span class="literal">new</span> KeyFrame(Duration.<span class="ST5">millis</span>(50), (ActionEvent event) -&gt; {
+            moveBall();
+            ballIntersect();
+            gameOver();
+        })
+        );
+        <span class="ST3">animation</span>.setCycleCount(Timeline.<span class="ST4">INDEFINITE</span>);
+        <span class="ST3">animation</span>.setRate(<span class="ST3">animation</span>.getRate() * 15);
+        <span class="ST3">animation</span>.play();
+
+    }   
+    <span class="literal">public</span> <span class="literal">void</span> <span class="ST2">gameOver</span>(){
+        <span class="literal">if</span>(<span class="ST3">lifeCounter</span> == 3){
+            <span class="ST3">scoreLabel</span>.setLayoutX(400.0);
+            <span class="ST3">scoreLabel</span>.setLayoutY(303.0);
+            <span class="ST3">scoreLabel</span>.setFont(Font.<span class="ST5">font</span>(<span class="string">&quot;</span><span class="string">Impact</span><span class="string">&quot;</span>,30));
+            <span class="ST3">animation</span>.pause();
+            <span class="ST3">scoreLabel</span>.setText(<span class="string">&quot;</span><span class="string">GAMEOVER:(</span><span class="ST6">\n</span> <span class="string">&quot;</span> + <span class="string">&quot;</span><span class="string"> FINAL SCORE IS: </span><span class="string">&quot;</span> + <span class="ST3">score</span>);
+        }
+    }
+
+    <span class="literal">private</span> <span class="literal">void</span> <span class="ST2">moveBall</span>() {
+        <span class="literal">if</span> (<span class="ST3">x</span> &lt; <span class="ST3">radius</span> || <span class="ST3">x</span> &gt; getWidth() - <span class="ST3">radius</span>) {
+            <span class="ST3">dx</span> *= -1; <span class="comment">// change the ball move direction</span>
+
+        }
+        <span class="literal">if</span> (<span class="ST3">y</span> &lt; <span class="ST3">radius</span> || <span class="ST3">y</span> &gt; getHeight() - <span class="ST3">radius</span>) {
+            <span class="ST3">dy</span> *= -1; <span class="comment">// change the ball move direction</span>
+        }
+        
+        <span class="literal">if</span>(<span class="ST3">y</span> &gt; getHeight() - <span class="ST3">radius</span>){
+            <span class="ST3">computerScoreLabel</span>.setText(<span class="string">&quot;</span><span class="string">Computer Score: </span><span class="string">&quot;</span> + (<span class="ST3">computerScore</span> += 20 )); <span class="comment">// the computer gets 20 points every time it scores.</span>
+            <span class="ST3">lifeCounter</span> += 1;
+        }
+        
+        <span class="literal">switch</span> (<span class="ST3">lifeCounter</span>) {  <span class="comment">//removes hearts accordingly.</span>
+            <span class="literal">case</span> 1:
+                <span class="ST3">imv1</span>.setVisible(<span class="literal">f</span><span class="literal">alse</span>);
+                <span class="literal">break</span>;
+            <span class="literal">case</span> 2:
+                <span class="ST3">imv2</span>.setVisible(<span class="literal">f</span><span class="literal">alse</span>);
+                <span class="literal">break</span>;
+            <span class="literal">case</span> 3:
+                <span class="ST3">imv3</span>.setVisible(<span class="literal">f</span><span class="literal">alse</span>);
+                <span class="literal">break</span>;
+            <span class="literal">default</span>:
+                <span class="literal">break</span>;
+        }
+        
+        
+        
+        <span class="ST3">x</span> += <span class="ST3">dx</span>;
+        <span class="ST3">y</span> += <span class="ST3">dy</span>;
+        <span class="ST3">circle</span>.setCenterX(<span class="ST3">x</span>);
+        <span class="ST3">circle</span>.setCenterY(<span class="ST3">y</span>);
+    }
+
+    <span class="literal">public</span> <span class="literal">void</span> <span class="ST2">moveRectangleRight</span>() { 
+        <span class="literal">if</span> (<span class="ST3">recX</span> &gt;= getWidth() - 150) {
+            <span class="ST3">recX</span> = getWidth() - 150;
+
+        }
+        
+        <span class="ST3">recMoveRight</span> = <span class="ST3">moveLogic</span>;
+        <span class="ST3">rectangle</span>.setX(<span class="ST3">recX</span> += <span class="ST3">recMoveRight</span>);
+        
+    }
+
+    <span class="literal">public</span> <span class="literal">void</span> <span class="ST2">moveRectangleLeft</span>() {
+        <span class="literal">if</span> (<span class="ST3">recX</span> &lt;= 0) {
+            <span class="ST3">recX</span> = 0;
+        }
+        <span class="ST3">recMoveLeft</span> = -<span class="ST3">moveLogic</span>;
+        
+        <span class="ST3">rectangle</span>.setX(<span class="ST3">recX</span> += <span class="ST3">recMoveLeft</span>);
+       
+
+    }
+
+
+
+    <span class="literal">public</span> <span class="literal">void</span> <span class="ST2">play</span>() {
+        <span class="ST3">animation</span>.play();
+    }
+
+    <span class="literal">public</span> <span class="literal">void</span> <span class="ST2">pause</span>() {
+        <span class="ST3">animation</span>.pause();
+
+    }
+
+    <span class="literal">public</span> DoubleProperty <span class="ST2">rateProperty</span>() { <span class="comment">// spped of your moving ball </span>
+        <span class="literal">return</span> <span class="ST3">animation</span>.rateProperty();
+    }
+
+    <span class="literal">public</span> <span class="literal">void</span> <span class="ST2">ballIntersect</span>() {
+        <span class="literal">if</span> (<span class="ST3">circle</span>.intersects(<span class="ST3">r</span><span class="ST3">ectangle</span>.getBoundsInLocal())) {
+
+            <span class="ST3">dx</span> *= 1; <span class="comment">// change the ball move direction</span>
+
+            <span class="ST3">dy</span> *= -1; <span class="comment">// change the ball move direction</span>
+
+            <span class="ST3">x</span> += <span class="ST3">dx</span>; <span class="comment">// circle movement </span>
+            <span class="ST3">y</span> += <span class="ST3">dy</span> - 25; <span class="comment">//|</span>
+            <span class="ST3">circle</span>.setCenterX(<span class="ST3">x</span>);<span class="comment">//|</span>
+            <span class="ST3">circle</span>.setCenterY(<span class="ST3">y</span>); <span class="comment">// | </span>
+            
+            <span class="literal">if</span>(<span class="ST3">level</span> % 2 == 0){<span class="comment">// your movement speed logic </span>
+                <span class="literal">if</span>(<span class="ST3">level</span> &lt;= 7)
+                    <span class="ST3">animation</span>.setRate(<span class="ST3">animation</span>.getRate() + (<span class="ST3">moveLogic</span> * 0.1)); <span class="comment">//every 2 levels the speed of the ball increases  </span>
+                
+                
+                <span class="literal">if</span>(<span class="ST3">level</span> &gt;=6)
+                    <span class="ST3">moveLogic</span> = 150;
+                <span class="literal">else</span>
+                    <span class="ST3">moveLogic</span>  = <span class="ST3">moveLogic</span> + 5;                   <span class="comment">// hence the paddle speed must also increase </span>
+               
+            }
+            
+            <span class="literal">if</span>(<span class="ST3">score</span> &gt;= <span class="ST3">levelLogic</span>){ <span class="comment">// level dificulty logic</span>
+             
+             <span class="ST3">levelLogic</span> = <span class="ST3">levelLogic</span> + 10; <span class="comment">// the amount of points needed to pass a level is incremented every level.</span>
+             <span class="ST3">levelLogic</span> += 40; <span class="comment">// level variance each level has a different points to pass</span>
+             <span class="ST3">levelLabel</span>.setText(<span class="string">&quot;</span><span class="string">Level </span><span class="string">&quot;</span> + (<span class="ST3">level</span> += 1));
+            }
+            
+            
+             <span class="ST3">scoreLabel</span>.setText(<span class="string">&quot;</span><span class="string">Score: </span><span class="string">&quot;</span> + (<span class="ST3">score</span> += 20));<span class="comment">//your score</span>
+           
+                      
+           
+           
+            
+            
+        }
+
+    }
+
+}
+
+</pre></body>
+</html>

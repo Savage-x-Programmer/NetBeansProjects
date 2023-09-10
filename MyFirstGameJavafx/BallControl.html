@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>BallControl.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: monospace}
+pre {color: #000000; background-color: #ffffff; font-family: monospace}
+table {color: #404040; background-color: #e9e8e2; font-family: monospace}
+.ST1 {color: #969696; font-family: monospace; font-weight: bold}
+.ST2 {font-family: monospace; font-weight: bold}
+.comment {color: #969696}
+.ST4 {font-family: monospace; font-weight: bold; font-style: italic}
+.ST5 {font-family: monospace; font-style: italic}
+.ST3 {color: #ce54b8; font-family: monospace; font-style: italic}
+.ST0 {color: #287bde}
+.string {color: #1e9347}
+.literal {color: #336bdd}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">/Users/angelfigeralperezestevez/NetBeansProjects/MP2DataStructures/src/animation/BallControl.java</td></tr></table>
+<pre>
+<span class="comment">/*</span>
+<span class="comment"> * Click </span><span class="ST0">nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt</span><span class="comment"> to change this license</span>
+<span class="comment"> * Click </span><span class="ST0">nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java</span><span class="comment"> to edit this template</span>
+<span class="comment"> */</span>
+<span class="literal">package</span> animation;
+
+
+<span class="literal">import</span> javafx.application.Application;
+<span class="literal">import</span> javafx.event.EventHandler;
+<span class="literal">import</span> javafx.scene.Scene;
+<span class="literal">import</span> javafx.scene.input.KeyCode;
+<span class="literal">import</span> javafx.scene.input.MouseEvent;
+<span class="literal">import</span> javafx.stage.Stage;
+
+<span class="comment">/**</span>
+<span class="comment"> *</span>
+<span class="comment"> * </span><span class="ST1">@author</span> <span class="comment">angelfigeralperezestevez</span>
+ <span class="comment">*/</span>
+<span class="literal">public</span> <span class="literal">class</span> <span class="ST2">BallControl</span> <span class="literal">extends</span> Application {
+
+    @Override
+    <span class="literal">public</span> <span class="literal">void</span> <span class="ST2">start</span>(Stage primaryStage) <span class="literal">throws</span> Exception {
+        BouncingBall bouncingBall = <span class="literal">new</span> BouncingBall();
+        
+        Scene scene = <span class="literal">new</span> Scene(bouncingBall, 800, 600);
+        primaryStage.setTitle(<span class="string">&quot;</span><span class="string">ZeroGravityTenis_Beta</span><span class="string">&quot;</span>);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        bouncingBall.requestFocus();
+        
+        
+        
+        
+        bouncingBall.setOnMousePressed(<span class="literal">new</span> EventHandler&lt;MouseEvent&gt;() {
+            @Override
+            <span class="literal">public</span> <span class="literal">void</span> <span class="ST2">handle</span>(MouseEvent event) {
+                bouncingBall.pause();
+            }
+             
+        });
+        bouncingBall.setOnMouseReleased(<span class="literal">new</span> EventHandler&lt;MouseEvent&gt;(){
+            @Override
+            <span class="literal">public</span> <span class="literal">void</span> <span class="ST2">handle</span>(MouseEvent event) {
+            bouncingBall.play();            }
+        
+        });
+        bouncingBall.ballIntersect();
+        
+        
+        bouncingBall.setOnKeyPressed(e -&gt;
+        {
+            
+            <span class="literal">if</span> (e.getCode() == KeyCode.<span class="ST3">RIGHT</span>)
+            {
+                bouncingBall.moveRectangleRight();
+            }
+            <span class="literal">else</span> <span class="literal">if</span> (e.getCode() == KeyCode.<span class="ST3">LEFT</span>)
+            {
+                bouncingBall.moveRectangleLeft();
+            }
+        });
+
+    }
+    
+    
+    <span class="literal">public</span> <span class="literal">static</span> <span class="literal">void</span> <span class="ST4">main</span>(String[] args) {
+        <span class="ST5">launch</span>(args);
+    }
+}
+
+</pre></body>
+</html>
