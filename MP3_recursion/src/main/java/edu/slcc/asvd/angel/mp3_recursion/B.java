@@ -20,7 +20,7 @@ public class B implements Comparable<B> {
         B a2 = new B();
         
         System.out.println(a1.compareTo(a2));
-        System.out.println(a1.compareTo("gdefg"));
+        //System.out.println(a1.compareTo("gdefg"));
     }
     
 }
