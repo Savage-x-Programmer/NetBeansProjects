@@ -5,7 +5,8 @@ public class stringPermutation {
         Scanner scan = new Scanner(System.in);
 
         System.out.println("Enter a string: ");
-        String s = scan.nextLine();
+        String s;
+        s = scan.nextLine();
 
         System.out.println("the permutation for String " + s + " are: ");
         displayPermutation(s);
@@ -15,7 +16,7 @@ public class stringPermutation {
         displayPermutation("", s);
     }
     private static void displayPermutation(String s1, String s2) {
-        if (s2.length() == 0) {
+        if (s2.isEmpty()) {
             System.out.println(s1);
         } else {
             for (int i = 0; i < s2.length(); i++) {
