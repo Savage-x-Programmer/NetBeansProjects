@@ -1,5 +1,7 @@
 package edu.slcc.asvd.angel.mp3_recursion;
+
 import java.util.Scanner;
+
 public class stringPermutation {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
