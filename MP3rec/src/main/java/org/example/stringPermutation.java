@@ -15,6 +15,8 @@ public class stringPermutation {
         displayPermutation("", s);
     }
     //create a method to display permutation of a string
+
+
     private static void displayPermutation(String s1, String s2) {
         if (s2.isEmpty()) {
             System.out.println(s1);
