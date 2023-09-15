@@ -1,27 +1,21 @@
-package edu.slcc.asvd.angel.mp3_recursion;
+package org.example;
 
 import java.util.Scanner;
 
 public class stringPermutation {
-    private static String s;
-
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-
         System.out.println("Enter a string: ");
-        String s;
-        s = scan.nextLine();
-
+        String s = scan.next();
         System.out.println("the permutation for String " + s + " are: ");
         displayPermutation(s);
     }
-
+    //create a method to display permutation of a string
     private static void displayPermutation(String s) {
-        stringPermutation.s = s;
         displayPermutation("", s);
     }
-
-    private static void displayPermutation(String s1, @org.jetbrains.annotations.NotNull String s2) {
+    //create a method to display permutation of a string
+    private static void displayPermutation(String s1, String s2) {
         if (s2.isEmpty()) {
             System.out.println(s1);
         } else {
@@ -30,5 +24,4 @@ public class stringPermutation {
             }
         }
     }
-
 }
