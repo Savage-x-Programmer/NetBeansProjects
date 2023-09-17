@@ -10,14 +10,12 @@ public class stringPermutation {
         System.out.println("the permutation for String " + s + " are: ");
         displayPermutation(s);
     }
-    //create a method to display permutation of a string
-    private static void displayPermutation(String s) {
+    //create a method to display the permutation of a string
+    public static void displayPermutation(String s) {
         displayPermutation("", s);
     }
-    //create a method to display permutation of a string
-
-
-    private static void displayPermutation(String s1, String s2) {
+    //create a method to display the permutation of a string
+    public static void displayPermutation(String s1, String s2) {
         if (s2.isEmpty()) {
             System.out.println(s1);
         } else {
