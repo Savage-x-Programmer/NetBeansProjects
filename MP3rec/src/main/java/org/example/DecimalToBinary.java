@@ -5,17 +5,23 @@ public class DecimalToBinary {
         System.out.println("Please enter a decimal number you wish to convert to binary: ");
         java.util.Scanner scan = new java.util.Scanner(System.in);
         int decimal = scan.nextInt();
-        decimalToBinary(decimal);
-        // System.out.println("The binary equivalent of " + decimal + " is: ");
+
+        System.out.println(decimal +" in binary is " + decimalToBinary(decimal));
     }
-    public static void decimalToBinary(int decimal){
+    //create a method to convert decimal to binary using recursion that returns a string
+    public static String decimalToBinary(int decimal) {
         if (decimal == 0) {
-            System.out.println("0");
+            return "";
         } else {
-            System.out.print(decimal % 2);
-            decimalToBinary(decimal / 2);
+            return decimalToBinary(decimal / 2) + decimal % 2;
         }
-
-
     }
+
+
+
+
+
+
+
+
 }
