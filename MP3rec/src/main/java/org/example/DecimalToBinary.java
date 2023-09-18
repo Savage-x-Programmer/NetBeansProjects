@@ -8,7 +8,7 @@ public class DecimalToBinary {
 
         System.out.println(decimal +" in binary is " + decimalToBinary(decimal));
     }
-    //create a method to convert decimal to binary using recursion that returns a string
+
     public static String decimalToBinary(int decimal) {
         if (decimal == 0) {
             return "";
