@@ -23,52 +23,58 @@ public class Maze extends Application
     double paneWidth = 440;
     double paneHeight = 440;
 
-    private Cell[][] board = new Cell[8][8];
+    private static Cell[][] board = new Cell[8][8];
+
     private Button btFindPath = new Button("Find Path Top Left to Bottom Right");
+
+    private Button btFindPath2 = new Button(" top-right to bottom left)");
     private Button btClearPath = new Button("Clear Path");
     private Label lblStatus = new Label();
 
     @Override // Override the start method in the Application class
     public void start(Stage primaryStage)
     {
-        GridPane gridPane = new GridPane();
-        for (int i = 0; i < 8; i++)
-        {
-            for (int j = 0; j < 8; j++)
-            {
-                gridPane.add(board[i][j] = new Cell(), j, i);
+
+            GridPane gridPane = new GridPane();
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    gridPane.add(board[i][j] = new Cell(), j, i);
+
+                }
             }
+
+            HBox hBox = new HBox(5);
+            hBox.setAlignment(Pos.CENTER);
+            hBox.getChildren().addAll(btFindPath, btClearPath, btFindPath2);
+
+            BorderPane pane = new BorderPane();
+            pane.setTop(lblStatus);
+            BorderPane.setAlignment(lblStatus, Pos.CENTER);
+            pane.setCenter(gridPane);
+            pane.setBottom(hBox);
+
+            // Create a scene and place it in the stage
+            Scene scene = new Scene(pane, paneWidth, paneHeight + 60);
+            primaryStage.setTitle("Maze"); // Set the stage title
+            primaryStage.setScene(scene); // Place the scene in the stage
+            primaryStage.show(); // Display the stage
+
+            btFindPath.setOnAction(e -> findPath());
+            btClearPath.setOnAction(e -> clearPath());
+
+            btFindPath2.setOnAction(e -> findPath2());
         }
 
-        HBox hBox = new HBox(5);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().addAll(btFindPath, btClearPath);
 
-        BorderPane pane = new BorderPane();
-        pane.setTop(lblStatus);
-        BorderPane.setAlignment(lblStatus, Pos.CENTER);
-        pane.setCenter(gridPane);
-        pane.setBottom(hBox);
 
-        // Create a scene and place it in the stage
-        Scene scene = new Scene(pane, paneWidth, paneHeight + 60);
-        primaryStage.setTitle("Maze"); // Set the stage title
-        primaryStage.setScene(scene); // Place the scene in the stage
-        primaryStage.show(); // Display the stage
 
-        btFindPath.setOnAction(e -> findPath());
-        btClearPath.setOnAction(e -> clearPath());
-        showSampleMessage();
-
-    }
-
-    public void showSampleMessage()
+    public static void  showSampleMessage()
     {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
 
         a.setTitle("Maze Information");
-        a.setHeaderText(" Put this message in its proper place. ");
-        a.setContentText("This square cannot have an X");
+        a.setHeaderText("remove mark from beggining or ending point");
+        a.setContentText("do not find path until ending and starting points are unmarked");
         Optional<ButtonType> result = a.showAndWait();
         if (result.get() == ButtonType.OK)
         {
@@ -79,10 +85,36 @@ public class Maze extends Application
             System.out.println("CANCEL");
         }
     }
+    public static void returnMessage(){
+        if (board[0][0].marked())
+            showSampleMessage();
+        else if(board[0][7].marked()){
+            showSampleMessage();
+        }
+        else if(board[7][0].marked()){
+            showSampleMessage();
+        }
+        else if(board[7][7].marked()){
+            showSampleMessage();
+        }
+    }
 
     public void findPath()
     {
+        clearPath2();
         if (findPath(0, 0))
+        {
+            lblStatus.setText("path found");
+        }
+        else
+        {
+            lblStatus.setText("No path exists");
+        }
+    }
+    public void findPath2()
+    {
+        clearPath2();
+        if (findPath2(7, 0))
         {
             lblStatus.setText("path found");
         }
@@ -158,6 +190,72 @@ public class Maze extends Application
 
         return false;
     }
+    public boolean findPath2(int row, int col)
+    {
+        board[row][col].visit();
+
+        if ((col == 7) && (row == 0))
+        {
+            board[row][col].selectCell2();
+            return true;
+        }
+
+        if ((row > 0) && !board[row - 1][col].marked()
+                && !board[row - 1][col].blocked() && !board[row - 1][col].visited())
+        {
+            block(row, col);
+
+            if (findPath2(row - 1, col))
+            {
+                board[row][col].selectCell2();
+                return true;
+            }
+
+            unblock(row, col);
+        }
+
+        if ((row < 7) && !board[row + 1][col].marked()
+                && !board[row + 1][col].blocked() && !board[row + 1][col].visited())
+        {
+            block(row, col);
+
+            if (findPath2(row + 1, col))
+            {
+                board[row][col].selectCell2();
+                return true;
+            }
+
+            unblock(row, col);
+        }
+
+        if ((col > 0) && !board[row][col - 1].marked()
+                && !board[row][col - 1].blocked() && !board[row][col - 1].visited())
+        {
+            block(row, col);
+            if (findPath2(row, col - 1))
+            {
+                board[row][col].selectCell2();
+                return true;
+            }
+
+            unblock(row, col);
+        }
+
+        if ((col < 7) && !board[row][col + 1].marked()
+                && !board[row][col + 1].blocked() && !board[row][col + 1].visited())
+        {
+            block(row, col);
+            if (findPath2(row, col + 1))
+            {
+                board[row][col].selectCell2();
+                return true;
+            }
+
+            unblock(row, col);
+        }
+
+        return false;
+    }
 
     // Temporary block the neighbor to prevent neighboring path
     public void block(int row, int col)
@@ -217,6 +315,17 @@ public class Maze extends Application
             }
         }
     }
+    public void clearPath2()
+    {
+        for (int row = 0; row < board.length; row++)
+        {
+            for (int col = 0; col < board[row].length; col++)
+            {
+                board[row][col].deselectCell2();
+
+            }
+        }
+    }
 
     public static void main(String[] args)
     {
@@ -260,6 +369,7 @@ public class Maze extends Application
 
         public void mark()
         {
+            returnMessage();
             this.getChildren().addAll(line1, line2);
         }
 
@@ -271,6 +381,7 @@ public class Maze extends Application
 
         public boolean marked()
         {
+
             return marked;
         }
 
@@ -303,10 +414,20 @@ public class Maze extends Application
         {
             rectangle.setFill(Color.RED);
         }
+        public void selectCell2()
+        {
+            rectangle.setFill(Color.GREEN);
+        }
 
         public void deselectCell()
         {
             rectangle.setFill(Color.WHITE);
+            blocked = false;
+            visited = false;
+        }
+        public  void deselectCell2()
+        {
+
             blocked = false;
             visited = false;
         }
