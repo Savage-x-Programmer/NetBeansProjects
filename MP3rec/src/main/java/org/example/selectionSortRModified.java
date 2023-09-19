@@ -3,19 +3,19 @@ package org.example;
 public class selectionSortRModified {
 
 
-    public static void selectionSortR(int[] ar, int low, int high) {
-        if (low < high) {
-            int indexOfMin = low;
-            int min = ar[low];
-            for (int i = low + 1; i <= high; i++) {
+    public static void selectionSortR(int[] ar, int l, int j) {
+        if (l < j) {
+            int indexOfMin = l;
+            int min = ar[l];
+            for (int i = l + 1; i <= j; i++) {
                 if (ar[i] < min) {
                     min = ar[i];
                     indexOfMin = i;
                 }
             }
-            ar[indexOfMin] = ar[low];
-            ar[low] = min;
-            selectionSortR(ar, low + 1, high);
+            ar[indexOfMin] = ar[l];
+            ar[l] = min;
+            selectionSortR(ar, l + 1, j);
         }
     }
 
