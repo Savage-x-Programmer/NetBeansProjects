@@ -48,10 +48,24 @@ public class GenericTest {
         
         //f6(l3);
         f7(l3);
-       
+       ArrayList<?> l4;
+       ArrayList<? extends Object> l5;
     }
-     static class A{
-        
-    }
+     
     
 }
+    class A{
+        
+    }
+    class B<T>{
+        public void  f1(ArrayList<? extends T> list){
+            
+        }
+          
+        public static void main(String[] args) {
+            B<Integer> b= new B();
+            b.f1(new ArrayList<Integer>());
+            
+        }
+        
+    }
