@@ -102,6 +102,7 @@ public class Maze extends Application
     public void findPath()
     {
         clearPath2();
+
         if (findPath(0, 0))
         {
             lblStatus.setText("path found");
@@ -193,6 +194,8 @@ public class Maze extends Application
     public boolean findPath2(int row, int col)
     {
         board[row][col].visit();
+
+
 
         if ((col == 7) && (row == 0))
         {
@@ -427,10 +430,16 @@ public class Maze extends Application
         }
         public  void deselectCell2()
         {
-
+            if (rectangle.getFill().equals(Color.RED)){
+                rectangle.setFill(Color.YELLOW);
+            }
+            else if (rectangle.getFill().equals(Color.GREEN)){
+                rectangle.setFill(Color.YELLOW);
+            }
             blocked = false;
             visited = false;
         }
+
     }
 
 }
