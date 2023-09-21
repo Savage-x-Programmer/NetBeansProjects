@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="MP2DataStructures">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/MP2DataStructures.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
