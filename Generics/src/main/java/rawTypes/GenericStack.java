@@ -59,6 +59,8 @@ public class GenericStack<T> {
             throw new EmptyStackException();
         return elements[top-1];
     }
+    
+    
 
     @Override
     public String toString() 
@@ -104,8 +106,16 @@ public class GenericStack<T> {
        
        
     }
+
+    public boolean isEmpty() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+   
+
+    }
     
-    public static class TestGenericStack{
+     class TestGenericStack{
         int x;
         
         public TestGenericStack(int x){
@@ -119,4 +129,4 @@ public class GenericStack<T> {
         
     }
     
-}
+
