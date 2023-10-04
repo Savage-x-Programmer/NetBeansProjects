@@ -22,7 +22,7 @@ import java.util.function.Consumer;
  *
  * @author ASDV2
  */
-public class ArrayListASDV<E>
+ class ArrayListASDV<E>
         implements Serializable, Cloneable, List<E>
 {
 
