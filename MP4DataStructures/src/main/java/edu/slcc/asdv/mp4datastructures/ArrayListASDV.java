@@ -187,7 +187,8 @@ public class ArrayListASDV<E>
     @Override
     public Object[] toArray()
     {
-       
+
+        return Arrays.copyOf(list, index);
     }
 
     /**
@@ -205,7 +206,14 @@ public class ArrayListASDV<E>
     public boolean remove(Object o
     )
     {
-        
+
+        for(int i = 0; i < list.length; ++i){
+            if(list[i] == o){
+                list[i] = null;
+                return true;
+            }
+        }
+        return false;
 
     }
 
@@ -289,8 +297,10 @@ public class ArrayListASDV<E>
     public E remove(int index
     )
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+        E temp = list[index];
+        list[index] = null;
+        return temp;
     }
 
     /**
@@ -308,8 +318,13 @@ public class ArrayListASDV<E>
     public int indexOf(Object o
     )
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+        for(int i = 0; i < list.length; ++i){
+            if(list[i] == o){
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -327,8 +342,13 @@ public class ArrayListASDV<E>
     public int lastIndexOf(Object o
     )
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+        for(int i = list.length - 1; i >= 0; --i){
+            if(list[i] == o){
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -364,8 +384,20 @@ public class ArrayListASDV<E>
     public List<E> subList(int fromIndex, int toIndex
     )
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+        if (fromIndex < 0 || toIndex > index || fromIndex > toIndex)
+          {
+            throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + " toIndex: " + toIndex);
+          }
+
+        ArrayListASDV<E> subList = new ArrayListASDV<>(toIndex - fromIndex);
+
+        for (int i = fromIndex; i < toIndex; ++i)
+          {
+            subList.add(list[i]);
+          }
+
+        return subList;
     }
 
     /**
@@ -419,8 +451,43 @@ public class ArrayListASDV<E>
     @Override
     public Iterator<E> iterator()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+        Iterator<E> it = new Iterator<E>()
+        {
+            int current = 0;
+
+            /**
+             * Returns true if the iteration has more elements. (In other words,
+             * returns true if next() would return an element rather than
+             * throwing an exception.)
+             *
+             * @return true if the iteration has more elements
+             */
+            @Override
+            public boolean hasNext()
+            {
+                return current < index;
+            }
+
+            /**
+             * Returns the next element in the iteration.
+             *
+             * @return the next element in the iteration
+             * @throws NoSuchElementException - if the iteration has no more
+             * elements
+             */
+            @Override
+            public E next()
+            {
+                if (current >= index)
+                  {
+                    throw new NoSuchElementException("No more elements");
+                  }
+                return list[current++];
+            }
+        };
+
+        return it;
     }
 
     /**
@@ -457,9 +524,9 @@ public class ArrayListASDV<E>
              * traversing the list in the forward direction
              */
             @Override
-            public boolean hasNext()
-            {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            public boolean hasNext() {
+
+                return current < index;
             }
 
             /**
@@ -476,22 +543,30 @@ public class ArrayListASDV<E>
             @Override
             public E next()
             {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+                if (current >= index)
+                  {
+                    throw new NoSuchElementException("No more elements");
+                  }
+                return list[current++];
             }
 
             @Override
             public boolean hasPrevious()
             {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+                return current > 0;
             }
 
             @Override
             public E previous()
             {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+                if (current <= 0)
+                  {
+                    throw new NoSuchElementException("No more elements");
+                  }
+                return list[current--];
             }
 
             /**
@@ -506,8 +581,9 @@ public class ArrayListASDV<E>
             @Override
             public int nextIndex()
             {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+
+                return current + 1;
             }
 
             /**
@@ -522,14 +598,16 @@ public class ArrayListASDV<E>
             @Override
             public int previousIndex()
             {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+                return current - 1;
             }
 
             @Override
             public void forEachRemaining(Consumer<? super E> action)
             {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+
+                ListIterator.super.forEachRemaining(action);
 
             }
 
@@ -579,15 +657,26 @@ public class ArrayListASDV<E>
     @Override
     public boolean containsAll(Collection<?> c)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+        for (Object o : c)
+          {
+            if (!this.contains(o))
+              {
+                return false;
+              }
+          }
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+        for (E e : c)
+          {
+            this.add(e);
+          }
+        return true;
     }
 
     @Override
@@ -595,6 +684,8 @@ public class ArrayListASDV<E>
     )
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+
 
     }
 
@@ -622,8 +713,12 @@ public class ArrayListASDV<E>
     @Override
     public boolean removeAll(Collection<?> c)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+        for (Object o : c)
+          {
+            this.remove(o);
+          }
+        return true;
     }
 
     /**
@@ -643,8 +738,15 @@ public class ArrayListASDV<E>
     public boolean retainAll(Collection<?> c
     )
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
+        for (Object o : c)
+          {
+            if (!this.contains(o))
+              {
+                this.remove(o);
+              }
+          }
+        return true;
     }
 
     public static void main(String[] args)
