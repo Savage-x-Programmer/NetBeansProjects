@@ -79,7 +79,11 @@ public class ArrayListASDV<E>
      */
     public ArrayListASDV(Collection<? extends E> c)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+        list.equals(c);
+        index = 0;
+    
     }
 
     /**
@@ -159,9 +163,13 @@ public class ArrayListASDV<E>
     @Override
     public boolean contains(Object o)
     {
-
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(int i = 0; i < list.length; ++i){
+            if(list[i] == o){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -179,8 +187,7 @@ public class ArrayListASDV<E>
     @Override
     public Object[] toArray()
     {
-
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
 
     /**
@@ -198,8 +205,7 @@ public class ArrayListASDV<E>
     public boolean remove(Object o
     )
     {
-
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
 
     }
 
@@ -211,8 +217,10 @@ public class ArrayListASDV<E>
     @Override
     public void clear()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
+        for(int i = 0; i < list.length; ++i){
+            list[i] = null;
+        }
+        index = 0;
     }
 
     /**
@@ -227,8 +235,7 @@ public class ArrayListASDV<E>
     public E get(int index
     )
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
+       return list[index];
     }
 
     /**
@@ -245,8 +252,7 @@ public class ArrayListASDV<E>
     public E set(int index, E element
     )
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
+        return list[index] = element;
     }
 
     /**
