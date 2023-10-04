@@ -11,22 +11,22 @@ import java.util.List;
  *
  * @author angelfigeralperezestevez
  */
-public class Rule11 {
-    // no inheritance on the diamond not matter what.
-    // use ? exteds on the declaration part
-    public static void f(List<List<Integer>> table){
-        for(int i = 0; i < 2; ++i){
+public class Rule12 {
+    public static void main(String[] args) {
+        //no inheritance inside dimond
+        // 
+        
+        List<List<Integer>> table = new ArrayList<List<Integer>>();
+        
+        for(int i = 0; i<2; ++i){
             List<Integer> row = new ArrayList<Integer>();
-            for(int j = 0; j < 3; ++j)
+            for(int j = 0; j<3; ++j)
                 row.add(i+j);
             table.add(row);
         }
-        for(List<Integer> row: table){
+        for(List<Integer>row: table){
             System.out.println(row);
         }
-            
-    }
-    public static void main(String[] args) {
-        //f(new ArrayList<List<Integer>>)
+                
     }
 }
