@@ -187,7 +187,6 @@ public class ArrayListASDV<E>
     @Override
     public Object[] toArray()
     {
-
         return Arrays.copyOf(list, index);
     }
 
@@ -206,7 +205,6 @@ public class ArrayListASDV<E>
     public boolean remove(Object o
     )
     {
-
         for(int i = 0; i < list.length; ++i){
             if(list[i] == o){
                 list[i] = null;
@@ -280,8 +278,29 @@ public class ArrayListASDV<E>
     public void add(int index, E element
     )
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       if (element == null)
+          {
+            throw new NullPointerException("element is null");
+          }
 
+        if (index < 0 || index > this.index)
+          {
+            throw new IndexOutOfBoundsException("index: " + index);
+          }
+
+        if (index == this.index)
+          {
+            this.add(element);
+          }
+        else
+          {
+            for (int i = this.index; i > index; --i)
+              {
+                list[i] = list[i - 1];
+              }
+            list[index] = element;
+            ++this.index;
+          }
     }
 
     /**
@@ -773,7 +792,7 @@ public class ArrayListASDV<E>
           {
             2, 3
           };
-        /*
+
         list1.toArray(b);
 
         list2.add("a");
@@ -1068,7 +1087,7 @@ public class ArrayListASDV<E>
           });
         li3.addAll(2, ar33);
         System.out.println(li3);
-*/
+
     }
 
 }
