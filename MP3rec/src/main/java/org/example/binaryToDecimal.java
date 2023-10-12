@@ -4,12 +4,14 @@ import java.util.Scanner;
 
 public class binaryToDecimal {
     public static void main(String[] args) {
-       Scanner scan = new Scanner(System.in);
+       while(true) {
+           Scanner scan = new Scanner(System.in);
 
-        System.out.println("Enter a binary number: ");
-        String binaryString = scan.next();
-        System.out.println("The decimal value for binary number " + binaryString + " is " + binaryToDecimal(binaryString));
-    }
+           System.out.println("Enter a binary number: ");
+           String binaryString = scan.next();
+           System.out.println("The decimal value for binary number " + binaryString + " is " + binaryToDecimal(binaryString));
+       }
+       }
     public static int binaryToDecimal(String binaryString) {
 
         return binaryToDecimal(binaryString, 0, binaryString.length() - 1);

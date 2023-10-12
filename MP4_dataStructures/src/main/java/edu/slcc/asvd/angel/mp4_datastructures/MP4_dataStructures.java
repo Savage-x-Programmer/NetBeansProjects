@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package edu.slcc.asdv.mp4datastructures;
+package edu.slcc.asvd.angel.mp4_datastructures;
 
 /**
  *
- * @author angel
+ * @author angelfigeralperezestevez
  */
-public class MP4DataStructures {
+public class MP4_dataStructures {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
