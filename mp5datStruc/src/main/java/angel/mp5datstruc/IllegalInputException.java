@@ -8,6 +8,9 @@ package angel.mp5datstruc;
  *
  * @author angelfigeralperezestevez
  */
-public class IllegalInputException {
-    
+public class IllegalInputException extends RuntimeException {
+    public IllegalInputException(String message)
+    {
+        super(message);
+    }
 }
